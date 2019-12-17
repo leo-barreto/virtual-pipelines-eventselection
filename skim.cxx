@@ -253,8 +253,12 @@ auto DeclareVariables(T &df) {
  * Add the event weight to the dataset as the column "weight"
  */
 template <typename T>
-auto AddEventWeight(T &df, const int numEvents, const int xsec, const int lumi) {
-    return df.Define("weight", [&](){ return numEvents * xsec * lumi; });
+auto AddEventWeight(T &df, const std::string& sample, const float numEvents, const float xsec, const float lumi, const float scale) {
+    if (sample.find("Run2012") != std::string::npos) {
+        return df.Define("weight", [&](){ return 1.0; });
+    } else {
+        return df.Define("weight", [&](){ return xsec / numEvents * lumi * scale; });
+    }
 }
 
 
@@ -298,8 +302,8 @@ const std::vector<std::string> finalVariables = {
  * interesting events and writes them to new files.
  */
 int main(int argc, char **argv) {
-    if(argc != 5) {
-        std::cout << "Use executable with following arguments: ./skim input output cross_section integrated_luminosity" << std::endl;
+    if(argc != 6) {
+        std::cout << "Use executable with following arguments: ./skim input output cross_section integrated_luminosity scale" << std::endl;
         return -1;
     }
     const std::string input = argv[1];
@@ -319,6 +323,9 @@ int main(int argc, char **argv) {
     const auto lumi = atof(argv[4]);
     std::cout << "Integrated luminosity: " << lumi << std::endl;
 
+    const auto scale = atof(argv[5]);
+    std::cout << "Global scaling: " << scale << std::endl;
+
     auto df2 = MinimalSelection(df);
     auto df3 = FindGoodMuons(df2);
     auto df4 = FindGoodTaus(df3);
@@ -326,7 +333,7 @@ int main(int argc, char **argv) {
     auto df6 = FindMuonTauPair(df5);
     auto df7 = DeclareVariables(df6);
     auto df8 = CheckGeneratorTaus(df7, input);
-    auto df9 = AddEventWeight(df8, numEvents, xsec, lumi);
+    auto df9 = AddEventWeight(df8, input, numEvents, xsec, lumi, scale);
 
     auto dfFinal = df9;
     auto report = dfFinal.Report();
