@@ -12,6 +12,7 @@ Features:
 ## Links
 
 Indico agenda of the event: https://indico.cern.ch/event/854880/
+
 Record on the CERN Open Data portal used as baseline: http://opendata.web.cern.ch/record/12350
 
 ## Dependencies
