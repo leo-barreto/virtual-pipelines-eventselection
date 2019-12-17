@@ -22,6 +22,12 @@ The analysis needs only ROOT (6.16 or later) and Python (2 and 3 should work). Y
 source /cvmfs/sft.cern.ch/lcg/views/LCG_95/x86_64-slc6-gcc8-opt/setup.sh
 ```
 
+Other ways to install ROOT:
+- You can install ROOT via conda on most machines in a few minutes: https://anaconda.org/conda-forge/root
+- You can follow the instructions from the ROOT website for binaries and CVMFS sources: https://root.cern.ch/content/release-61804
+- Or use the pacakges from your distro (highly depends on the distro whether this works out...)
+
+
 ## Preprocessing: Reducing the initial samples
 
 To reduce the inital samples to a fraction of the size. The bash script `reduce.sh` calls the Python script `reduce.py` for all relevant samples with a constant reduction factor.
@@ -36,7 +42,7 @@ Next, we make histograms of all variables and physics processes for later plotti
 
 ## Step 3: Plotting
 
-Finally, we make the physics results by combining the histograms. Run `python plot.py /path/to/dir/with/histograms` for this step.
+Finally, we make the physics results by combining the histograms. Run `python plot.py /path/to/histograms.root /path/to/output/dir` for this step.
 
 ## Step 4: Fit
 Optionally, we can fit the cross-section of any process using the histograms also used for plotting.

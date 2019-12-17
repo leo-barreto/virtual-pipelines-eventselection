@@ -4,6 +4,7 @@
 # inital dataset based on observables motivated through physics.
 
 
+import argparse
 import ROOT
 ROOT.gROOT.SetBatch(True)
 
@@ -76,8 +77,8 @@ def getHistogram(tfile, name, variable, tag=""):
 # There, we take the data histogram from the control region and subtract all known
 # processes defined in simulation and define the remaining part as QCD. Then,
 # this shape is extrapolated into the signal region with a scale factor.
-def main(variable):
-    tfile = ROOT.TFile("histograms.root", "READ")
+def main(path, output, variable):
+    tfile = ROOT.TFile(path, "READ")
 
     # Styles
     ROOT.gStyle.SetOptStat(0)
@@ -227,11 +228,15 @@ def main(variable):
     latex.DrawLatex(0.16, 0.935, "#bf{CMS Open Data}")
 
     # Save
-    c.SaveAs("{}.pdf".format(variable))
-    c.SaveAs("{}.png".format(variable))
+    c.SaveAs("{}/{}.pdf".format(output, variable))
+    c.SaveAs("{}/{}.png".format(output, variable))
 
 
 # Loop over all variable names and make a plot for each
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", type=str, help="Full path to ROOT file with all histograms")
+    parser.add_argument("output", type=str, help="Output directory for plots")
+    args = parser.parse_args()
     for variable in labels.keys():
-        main(variable)
+        main(args.path, args.output, variable)
