@@ -31,6 +31,8 @@ Other ways to install ROOT:
 
 To reduce the inital samples to a fraction of the size, call the bash script `reduce.sh`, which processes all relevant samples with a constant reduction factor.
 
+We should place them on some public EOS space so that nobody has to run this step by themselves. Since ROOT supports also fetching data via http, we could also simply use a web server for this, to be discussed.
+
 ## Runtime
 
 **Details:**
@@ -63,6 +65,6 @@ The resulting plots are added to this repository as reference, e.g., see here th
 ![](plots/m_vis.png)
 
 ## Step 4: Fit
-Optionally, we can fit the cross-section of any process using the histograms also used for plotting.
+Optionally, we can fit the cross-section of any process using the histograms also used for plotting. In the implemented example, we use the HistFactory of ROOT to fit the signal strength of the Z to two tau lepton process. Call `bash fit.sh /path/to/histograms.root /path/to/output/dir` to produce the following profile:
 
-TODO: Add the fitting script
+![](plots/fit.png)
