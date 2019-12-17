@@ -27,22 +27,37 @@ Other ways to install ROOT:
 - You can follow the instructions from the ROOT website for binaries and CVMFS sources: https://root.cern.ch/content/release-61804
 - Or use the pacakges from your distro (highly depends on the distro whether this works out...)
 
-
 ## Preprocessing: Reducing the initial samples
 
-To reduce the inital samples to a fraction of the size. The bash script `reduce.sh` calls the Python script `reduce.py` for all relevant samples with a constant reduction factor.
+To reduce the inital samples to a fraction of the size, call the bash script `reduce.sh`, which processes all relevant samples with a constant reduction factor.
+
+## Runtime
+
+Data: Locally on an SSD, 6.5GB, 10% of the original samples, represents data and simulation of about 1.1fb-1 of the data taken in 2012 with CMS
+System: Consumer laptop, single core, on reduced initial samples, everything fully sequentially
+
+Skimming: 2m30s
+Histograms: 40s
+Plotting: Instant
+Fit: Almost instant
+
+Note that skimming and histogram production can be run seamlessly in multi-threading mode. I removed the feature for now so that we don't break any workflow later on (containe, ReANA, ...) but we could improve the runtime by a factor of around N (N being the number of threads used / physical cores).
 
 ## Step 1: Skimming
 
-The first analysis step skims the NanoAOD-like samples with a baseline selection and finds valid muon-tau pairs. The output is written as a flat ntuple for further processing. Run `skim.sh /path/to/dir/with/samples` to skim all (reduced) samples.
+The first analysis step skims the NanoAOD-like samples with a baseline selection and finds valid muon-tau pairs. The output is written as a flat ntuple for further processing. Run `bash skim.sh /path/to/dir/with/samples` to skim all (reduced) samples.
 
 ## Step 2: Histograms
 
-Next, we make histograms of all variables and physics processes for later plotting. Call `histograms.sh /path/to/dir/with/skims` to run the workflow.
+Next, we make histograms of all variables and physics processes for later plotting. Call `bash histograms.sh /path/to/dir/with/skims` to run the workflow.
 
 ## Step 3: Plotting
 
-Finally, we make the physics results by combining the histograms. Run `python plot.py /path/to/histograms.root /path/to/output/dir` for this step.
+Finally, we make the physics results by combining the histograms. Run `bash plot.sh /path/to/histograms.root /path/to/output/dir` for this step.
+
+The resulting plots are added to this repository as reference, e.g., see here the visible mass of the di-tau system:
+
+![](plots/m_vis.png)
 
 ## Step 4: Fit
 Optionally, we can fit the cross-section of any process using the histograms also used for plotting.

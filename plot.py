@@ -77,7 +77,7 @@ def getHistogram(tfile, name, variable, tag=""):
 # There, we take the data histogram from the control region and subtract all known
 # processes defined in simulation and define the remaining part as QCD. Then,
 # this shape is extrapolated into the signal region with a scale factor.
-def main(path, output, variable):
+def main(path, output, variable, scale):
     tfile = ROOT.TFile(path, "READ")
 
     # Styles
@@ -224,7 +224,8 @@ def main(path, output, variable):
     latex.SetNDC()
     latex.SetTextSize(0.04)
     latex.SetTextFont(42)
-    latex.DrawLatex(0.6, 0.935, "11.5 fb^{-1} (2012, 8 TeV)")
+    lumi = 11.467
+    latex.DrawLatex(0.6, 0.935, "{:.1f} fb^{{-1}} (2012, 8 TeV)".format(lumi * scale))
     latex.DrawLatex(0.16, 0.935, "#bf{CMS Open Data}")
 
     # Save
@@ -237,6 +238,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("path", type=str, help="Full path to ROOT file with all histograms")
     parser.add_argument("output", type=str, help="Output directory for plots")
+    parser.add_argument("scale", type=float, help="Scaling of the integrated luminosity")
     args = parser.parse_args()
     for variable in labels.keys():
-        main(args.path, args.output, variable)
+        main(args.path, args.output, variable, args.scale)
