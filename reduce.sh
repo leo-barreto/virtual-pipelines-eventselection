@@ -1,5 +1,6 @@
 #!/bin/bash
 
+OUTPUT_DIR=$1
 BASEPATH="root://eospublic.cern.ch//eos/opendata/cms/derived-data/AOD2NanoAODOutreachTool/"
 
 SAMPLES=("GluGluToHToTauTau"
@@ -15,5 +16,5 @@ SAMPLES=("GluGluToHToTauTau"
 for SAMPLE in ${SAMPLES[@]}
 do
     FULLPATH=${BASEPATH}${SAMPLE}.root
-    python reduce.py $FULLPATH 0.1 $PWD
+    python reduce.py $FULLPATH 0.1 $OUTPUT_DIR
 done
