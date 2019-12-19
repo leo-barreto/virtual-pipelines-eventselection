@@ -15,24 +15,35 @@ Indico agenda of the event: https://indico.cern.ch/event/854880/
 
 Record on the CERN Open Data portal used as baseline: http://opendata.web.cern.ch/record/12350
 
-## Dependencies
+## How to run the analysis
 
-The analysis needs only ROOT (6.16 or later) and Python (2 and 3 should work). You can run on any CVMFS enabled machine sourcing the following LCG release (don't forget to select the correct platform):
+The analysis needs only ROOT (6.16 or later) and Python (2 and 3 should work).
+
+TODO: People will go for the first option whatever it is, so let's shuffle accordingly.
+
+## Option 1: lxplus or any machine with CVMFS
+
+You can run on any CVMFS enabled machine such as lxplus sourcing an LCG release (don't forget to select the correct platform if you don't use lxplus with CentOS 7). Run the following commands to connect to lxplus with your CERN account and source the correct software stack.
 
 ```bash
-source /cvmfs/sft.cern.ch/lcg/views/LCG_95/x86_64-slc6-gcc8-opt/setup.sh
+ssh your_user@lxplus.cern.ch
+source /cvmfs/sft.cern.ch/lcg/views/LCG_95/x86_64-centos7-gcc8-opt/setup.sh
 ```
 
-Other ways to install ROOT:
-- You can install ROOT via conda on most machines in a few minutes: https://anaconda.org/conda-forge/root
-- You can follow the instructions from the ROOT website for binaries and CVMFS sources: https://root.cern.ch/content/release-61804
-- Or use the pacakges from your distro (highly depends on the distro whether this works out...)
+# Option 2: Using conda
+
+Install conda and ROOT following the instructions ![here](https://indico.cern.ch/event/759388/contributions/3306849/attachments/1816254/2968550/root_conda_forge.pdf). Works for Linux and macOS.
+
+
+# Option 3: Using Docker
+
+# TODO
 
 ## Preprocessing: Reducing the initial samples
 
 To reduce the inital samples to a fraction of the size, call the bash script `reduce.sh`, which processes all relevant samples with a constant reduction factor.
 
-We should place them on some public EOS space so that nobody has to run this step by themselves. Since ROOT supports also fetching data via http, we could also simply use a web server for this, to be discussed.
+The already reduced samples are placed on a public EOS space here: `root://eospublic.cern.ch//eos/root-eos/HiggsTauTauReduced/`
 
 ## Runtime
 
@@ -42,7 +53,7 @@ We should place them on some public EOS space so that nobody has to run this ste
 - [System] Consumer laptop, single core, on reduced initial samples, everything fully sequentially
 
 **Runtime:**
-- [Skimming] 2m30s
+- [Skimming] 2m30s (local files as described above), 6m (streamed via XRootD)
 - [Histograms] 40s
 - [Plotting] Instant
 - [Fit] Almost instant
@@ -51,11 +62,13 @@ Note that skimming and histogram production can be run seamlessly in multi-threa
 
 ## Step 1: Skimming
 
-The first analysis step skims the NanoAOD-like samples with a baseline selection and finds valid muon-tau pairs. The output is written as a flat ntuple for further processing. Run `bash skim.sh /path/to/dir/with/samples` to skim all (reduced) samples.
+The first analysis step skims the NanoAOD-like samples with a baseline selection and finds valid muon-tau pairs. The output is written as a flat ntuple for further processing. Run `bash skim.sh /path/to/dir/with/samples /path/to/output/dir` to skim all (reduced) samples.
+
+You have the option to download the samples beforehand or stream the data. To download the samples, run `bash download.sh /path/to/output/dir` and point for the `skim.sh` script to this directory. To stream the data, run `bash skim.sh root://eospublic.cern.ch//eos/root-eos/HiggsTauTauReduced/ /path/to/output/dir`.
 
 ## Step 2: Histograms
 
-Next, we make histograms of all variables and physics processes for later plotting. Call `bash histograms.sh /path/to/dir/with/skims` to run the workflow.
+Next, we make histograms of all variables and physics processes for later plotting. Call `bash histograms.sh /path/to/dir/with/skims /path/to/output/dir` to run the workflow.
 
 ## Step 3: Plotting
 

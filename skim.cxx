@@ -306,8 +306,7 @@ int main(int argc, char **argv) {
         std::cout << "Use executable with following arguments: ./skim input output cross_section integrated_luminosity scale" << std::endl;
         return -1;
     }
-    const std::string input = argv[1];
-    const std::string output = argv[2];
+    std::string input = argv[1];
     std::cout << ">>> Process input: " << input << std::endl;
 
     TStopwatch time;
@@ -337,6 +336,7 @@ int main(int argc, char **argv) {
 
     auto dfFinal = df9;
     auto report = dfFinal.Report();
+    const std::string output = argv[2];
     std::cout << "Output name: " << output << std::endl;
     dfFinal.Snapshot("Events", output, finalVariables);
     time.Stop();
