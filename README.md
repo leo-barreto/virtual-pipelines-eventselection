@@ -32,7 +32,7 @@ source /cvmfs/sft.cern.ch/lcg/views/LCG_95/x86_64-centos7-gcc8-opt/setup.sh
 
 # Option 2: Using conda
 
-Install conda and ROOT following the instructions ![here](https://indico.cern.ch/event/759388/contributions/3306849/attachments/1816254/2968550/root_conda_forge.pdf). Works for Linux and macOS.
+Install conda and ROOT following the instructions [here](https://indico.cern.ch/event/759388/contributions/3306849/attachments/1816254/2968550/root_conda_forge.pdf). Works for Linux and macOS.
 
 
 # Option 3: Using Docker
