@@ -13,7 +13,7 @@ fi
 echo ">>> Compile skimming executable ..."
 COMPILER=$(root-config --cxx)
 FLAGS=$(root-config --cflags --libs)
-time $COMPILER -g -std=c++11 -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
+time $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
 
 # Skim samples
 while IFS=, read -r SAMPLE XSEC
