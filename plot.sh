@@ -1,0 +1,7 @@
+#!/bin/bash
+
+HISTOGRAMS=$1
+OUTPUT=$2
+SCALE=0.1
+
+python plot.py $HISTOGRAMS $OUTPUT $SCALE
