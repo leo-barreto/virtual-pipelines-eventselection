@@ -255,9 +255,9 @@ auto DeclareVariables(T &df) {
 template <typename T>
 auto AddEventWeight(T &df, const std::string& sample, const float numEvents, const float xsec, const float lumi, const float scale) {
     if (sample.find("Run2012") != std::string::npos) {
-        return df.Define("weight", [&](){ return 1.0; });
+        return df.Define("weight", [=](){ return 1.0; });
     } else {
-        return df.Define("weight", [&](){ return xsec / numEvents * lumi * scale; });
+        return df.Define("weight", [=](){ return xsec / numEvents * lumi * scale; });
     }
 }
 
