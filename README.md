@@ -11,9 +11,9 @@ Features:
 
 ## Links
 
-Indico agenda of the event: https://indico.cern.ch/event/854880/
-
-Record on the CERN Open Data portal used as baseline: http://opendata.web.cern.ch/record/12350
+* [Supplementary webpage with documentation and exercises](https://hsf-training.github.io/hsf-training-cms-analysis-webpage/)
+* [Indico agenda of the event](https://indico.cern.ch/event/854880/)
+* [Record on the CERN Open Data portal used as baseline](http://opendata.web.cern.ch/record/12350)
 
 ## How to run the analysis
 
