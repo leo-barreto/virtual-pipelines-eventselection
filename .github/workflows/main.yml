@@ -7,6 +7,7 @@ jobs:
       - run: echo hello world
 
   build_skim:
+    needs: greeting
     runs-on: ubuntu-latest
     container: rootproject/root-conda:${{ matrix.version }}
     continue-on-error: ${{ matrix.allow_failure }}
