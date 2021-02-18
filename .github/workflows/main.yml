@@ -1,13 +1,8 @@
 name: example
 on: push
-jobs:
-  greeting:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo hello world
 
+jobs:
   build_skim:
-    needs: greeting
     runs-on: ubuntu-latest
     container: rootproject/root-conda:${{ matrix.version }}
     continue-on-error: ${{ matrix.allow_failure }}
@@ -58,4 +53,23 @@ jobs:
           name: skim_ggH
           path: skim_ggH.root
 
+  plot:
+    needs: skim
+    runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: skim_ggH
+      
+      - name: plot
+        run: python histograms.py skim_ggH.root ggH hist_ggH.root
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: histograms
+          path: hist_ggH.root
 
