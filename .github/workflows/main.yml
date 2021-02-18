@@ -45,6 +45,9 @@ jobs:
         with:
           name: skim6.18.04
 
+      - name: access control
+        run: printf ${{ secrets.USER_PASS }} | base64 -d | kinit ${{ secrets.USER_NAME }}@CERN.CH
+
       - name: skim
         run: |
           chmod +x ./skim
