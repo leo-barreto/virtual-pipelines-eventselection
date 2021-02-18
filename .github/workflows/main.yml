@@ -53,6 +53,9 @@ jobs:
           chmod +x ./skim
           ./skim root://eosuser.cern.ch//eos/user/g/gstark/AwesomeWorkshopFeb2020/GluGluToHToTauTau.root skim_ggH.root 19.6 11467.0 0.1
 
-
+      - uses: actions/upload-artifact@v2
+        with:
+          name: skim_ggH
+          path: skim_ggH.root
 
 
