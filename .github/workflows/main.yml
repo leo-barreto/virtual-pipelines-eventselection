@@ -8,8 +8,12 @@ jobs:
 
   build_skim:
     runs-on: ubuntu-latest
+    container: rootproject/root-conda:6.18.04
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
       - name: build
         run: |
-          COMPILER=$(root-config -cxx)
-          $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx
+          COMPILER=$(root-config --cxx)
+          FLAGS=$(root-config --cflags --libs)
+          $COMPILER -g -O3 -Wall -Wextra -Wpedantic -o skim skim.cxx $FLAGS
